@@ -20,7 +20,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-PRODUCTION = os.getenv('PRODUCTION', 'False').lower() == 'true'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
@@ -32,7 +31,7 @@ SECRET_KEY = 'django-insecure-1*7hc$@jc16jjjrj(#4966gc3*-a9gdmwcuh)i*)er%ge*f)2@
 DEBUG = True
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "muh-wildan51-myportofolio.pws.ui.ac.id"]
-
+PRODUCTION = os.getenv('PRODUCTION', 'False').lower() == 'true'
 
 # Application definition
 

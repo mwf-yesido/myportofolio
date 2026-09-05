@@ -6,10 +6,10 @@
 
 :root {
     --ink: #1c1917;
-    --paper: #faf6f0;
-    --accent: #d95d39;
-    --accent-dark: #a8442a;
-    --line: #e3d9c9;
+    --paper: #FAF3DD;
+    --accent: #8FC0A9;
+    --accent-dark: #4A7C59;
+    --line: #C8D5B9;
     --text-muted: #6b6459;
     --radius: 4px;
 }
@@ -116,6 +116,31 @@ h1, .brand {
 }
 
 .meta-row dd {
+    font-weight: 600;
+}
+
+
+.education-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.education-list {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.education-row dt {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    margin-bottom: 0.15rem;
+}
+
+.education-row dd {
     font-weight: 600;
 }
 
