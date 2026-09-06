@@ -119,11 +119,21 @@ h1, .brand {
     font-weight: 600;
 }
 
+.education {
+    padding: 1.5rem 0 2.5rem;
+}
 
 .education-grid {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+}
+
+.education-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 1rem;
 }
 
 .education-list {
@@ -141,6 +151,34 @@ h1, .brand {
 }
 
 .education-row dd {
+    font-weight: 600;
+}
+
+.project {
+    padding: 1.5rem 0 2.5rem;
+}
+
+.project-grid {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+}
+
+.project-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.project-row dt {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    margin-bottom: 0.15rem;
+}
+
+.project-row dd {
     font-weight: 600;
 }
 
