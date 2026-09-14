@@ -19,3 +19,10 @@ Kelas : PBP F
 3. Sejauh ini, saya belum menghadapi kesulitan dalam menyajikan informasi di portofolio saya. Terkait dynamic website, saya tertarik dengan bagaimana fungsi-fungsi dinamis bisa memungkinkan saya untuk membuat portofolio somehow lebih interaktif
 
 AI disclosure: Selama mengerjakan tugas 1, saya hanya menggunakan Copilot untuk auto-complete beberapa code repetitif. Saya menggunakan w3shools untuk mayoritas proses trial and error saya.
+
+### Tugas 2
+1. membuka url di browser, portofolio/urls.py menya,bungkan ke main/urls.py yang mencari "" lalu menjalankan 'show_main' method dari views. Method lalu mengirimkan context2 dan model kepada template yang lalu akan digunakan untuk ditampilkan.
+2. Karena model memudahkan kita untuk mengupdate informasi baru dibandingkan dengan mengubah seluruh instance informasi tersebut muncul dalam web
+3. 'makemigrations' akan membuat file migration baru dan 'migrate' akan mengaplikasikan file tersebut kedalam program. Salah satu saat dimana method ini digunakan adalah saat menambah model. di contoh saya, saat menambah class 'Education' saya membuat migration baru.
+
+AI disclosure: Selama mengerjakan tugas 2, saya hanya menggunakan sedikit AI overview pada masalah-masalah yang saya alami, salah satunya saat saya lupa makemigrations.
