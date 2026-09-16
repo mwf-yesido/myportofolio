@@ -121,6 +121,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# gunakan https:// untuk trailing urlnya
+CSRF_TRUSTED_ORIGINS = ["https://pws.cs.ui.ac.id/web/project/muh.wildan51/myportofolio"]
 
 # Internationalization
 # https://docs.djangoproject.com/en/6.1/topics/i18n/

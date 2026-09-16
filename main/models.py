@@ -34,13 +34,12 @@ class Education(models.Model):
     ]
     
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    title = models.CharField(max_length=255)
-    category = models.CharField(max_length=20, choices=EDUCATION_CHOICES, default='college')
-    thumbnail = models.URLField(blank=True, null=True)
-    started_at = models.DateTimeField(auto_now_add=True)
+    school_name = models.CharField(max_length=255)
+    grade = models.CharField(max_length=20, choices=EDUCATION_CHOICES, default='college')
+    started_at = models.DateTimeField(auto_now_add=False)
     ended_at = models.DateTimeField(blank=True, null=True)
     def __str__(self):
-        return self.title
+        return self.school_name
     
     @property
     def is_ongoing(self):
