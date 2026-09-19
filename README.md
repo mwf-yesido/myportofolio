@@ -26,3 +26,10 @@ AI disclosure: Selama mengerjakan tugas 1, saya hanya menggunakan Copilot untuk 
 3. 'makemigrations' akan membuat file migration baru dan 'migrate' akan mengaplikasikan file tersebut kedalam program. Salah satu saat dimana method ini digunakan adalah saat menambah model. di contoh saya, saat menambah class 'Education' saya membuat migration baru.
 
 AI disclosure: Selama mengerjakan tugas 2, saya hanya menggunakan sedikit AI overview pada masalah-masalah yang saya alami, salah satunya saat saya lupa makemigrations.
+
+### Tugas 3
+1. karena ModelForm akan memudahkan kita dalam pembuatan web dengan menghubungkan form dengan database model. {% csrf_token %} wajib ditambahkan untuk memproteksi akses web dari pihak yang tidak berwenang.
+2. karena bentuk file JSON lebih mudah dibaca mata manusia dan karena tidak adanya tag penutup, ukuran file JSON lebih kecil dibandingkan file XML yang akan mempersingkat waktu parsing
+3. membuat object, misalnya 'projects', yang merupakan semua object 'Project' dalam database. Kemudian, serialization digunakan untuk mengubah bentuk object menjadi format JSON. Lalu mengirim respon dalam bentuk HTTP kepada client
+
+AI disclosure: Saya menggunakan gemini untuk menjelaskan beberapa poin dalam tutorial 3, seperti implementasi JSON database
