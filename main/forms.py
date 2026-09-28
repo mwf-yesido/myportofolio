@@ -1,4 +1,4 @@
-from django.forms import ModelForm, TextInput, DateInput, URLInput, Textarea
+from django.forms import ModelForm, TextInput, DateInput, URLInput, Textarea, Select
 
 from main.models import Education, Experience
 import datetime
@@ -27,18 +27,23 @@ class EducationForm(ModelForm):
                     "maxlength": 255,
                 }
             ),
-            "grade": TextInput(
-                attrs={
-                    "placeholder": "elementary, junior high, senior high, college",
-                }
+            "grade": Select(
+                choices=[
+                    ('elementary', 'Elementary School'),
+                    ('junior', 'Junior High School'),
+                    ('senior', 'Senior High School'),
+                    ('college', 'College'),
+                ]
             ),
             "started_at": DateInput(
+                format='%Y-%m-%d',
                 attrs={
                     "type": "date",
                     "min": datetime.date.today().strftime('%y-%m-%d'),
                 }
             ),
             "ended_at": DateInput(
+                format='%Y-%m-%d',
                 attrs={
                     "type": "date",
                     "min": datetime.date.today().strftime('%y-%m-%d'),
@@ -80,10 +85,15 @@ class ExperienceForm(ModelForm):
                     "rows": 3,
                 }
             ),
-            "category": TextInput(
-                attrs={
-                    "placeholder": "Internship, Research, Volunteer, Part-time, Full-time, Freelance",
-                }
+            "category": Select(
+                choices= [
+                    ('internship', 'Internship'),
+                    ('research', 'Research'),
+                    ('volunteer', 'Volunteer'),
+                    ('part-time', 'Part-Time'),
+                    ('full-time', 'Full-Time'),
+                    ('freelance', 'Freelance'),
+                ]
             ),
             "thumbnail": URLInput(
                 attrs={
@@ -91,12 +101,14 @@ class ExperienceForm(ModelForm):
                 }
             ),
             "started_at": DateInput(
+                format='%Y-%m-%d',
                 attrs={
                     "type": "date",
                     "min": datetime.date.today().strftime('%y-%m-%d'),
                 }
             ),
             "ended_at": DateInput(
+                format='%Y-%m-%d',
                 attrs={
                     "type": "date",
                     "min": datetime.date.today().strftime('%y-%m-%d'),

@@ -33,3 +33,6 @@ AI disclosure: Selama mengerjakan tugas 2, saya hanya menggunakan sedikit AI ove
 3. membuat object, misalnya 'projects', yang merupakan semua object 'Project' dalam database. Kemudian, serialization digunakan untuk mengubah bentuk object menjadi format JSON. Lalu mengirim respon dalam bentuk HTTP kepada client
 
 AI disclosure: Saya menggunakan gemini untuk menjelaskan beberapa poin dalam tutorial 3, seperti implementasi JSON database
+
+### Tugas 4
+AI disclosure: Saya menggunakan beberapa dokumentasi dan juga Gemini untuk membantu saya dalam hal Django group dan permission. Saya tidak terlalu menggunakan AI dalam generate kode karena mayoritas memakai ulang kode yang sudah ada. Dokumentasi juga membantu saya dalam membuat group dan permission.

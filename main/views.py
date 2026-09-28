@@ -11,10 +11,20 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
-from django.contrib.auth.decorators import login_required  # Tambahkan baris ini
-from django.core.exceptions import PermissionDenied        # Tambahkan baris ini
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 
 import datetime
+
+from django.contrib.auth.decorators import user_passes_test
+
+def group_required(*group_names):
+    def in_groups(u):
+        if u.is_authenticated:
+            if bool(u.groups.filter(name__in=group_names)) or u.is_superuser:
+                return True
+        return False
+    return user_passes_test(in_groups)
 
 def show_main(request):
     last_login = request.COOKIES.get('last_login', 'Belum ada sesi login / Cookie tidak ditemukan')
@@ -34,7 +44,8 @@ def show_main(request):
 
 def show_experience(request):
     json_response = get_experience_json(request)
-
+    is_editor = request.user.groups.filter(name='Editor').exists()
+    
     experiences = serializers.deserialize(
         "json",
         json_response.content.decode("utf-8"),
@@ -46,11 +57,13 @@ def show_experience(request):
         "name": "Wildan",
         "experience_list": experiences,
         "title_query": title_query,
+        "is_editor": is_editor,
     }
     return render(request, "experience.html", context)
 
 def show_education(request):
     json_response = get_education_json(request)
+    is_editor = request.user.groups.filter(name='Editor').exists()
 
     educations = serializers.deserialize(
         "json",
@@ -63,6 +76,7 @@ def show_education(request):
         "name": "Burhan",
         "education_list": educations,
         "school_name_query": school_name_query,
+        "is_editor": is_editor
     }
     return render(request, "education.html", context)
 
@@ -83,6 +97,27 @@ def create_education(request):
         "form": form,
     }
     return render(request, "education_form.html", context)
+
+@group_required('Editor')
+def update_education(request, education_id):
+    education = get_object_or_404(Education, pk=education_id)
+
+    if request.method == "POST":
+        form = EducationForm(request.POST, instance=education)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Riwayat pendidikan berhasil diubah!")
+            return redirect("main:show_education")
+    else:
+        form = EducationForm(instance=education)
+
+    context = {
+        "name": "Wildan",
+        "form": form,
+        "education": education,
+    }
+
+    return render(request, "education_update_form.html", context)
 
 def get_education_json(request):
     school_name_query = request.GET.get("school_name", "").strip()
@@ -106,18 +141,28 @@ def delete_education(request, education_id):
     return redirect("main:show_education")
 
 @login_required(login_url="/login/")
-def toggle_star(request, education_id):
+def toggle_star_edu(request, education_id):
     education = get_object_or_404(Education, pk=education_id)
 
     if request.method == "POST":
-        # Kalau akun ini sudah pernah memberi star, batalkan star-nya.
-        # Kalau belum, tambahkan star.
         if request.user in education.starred_by.all():
             education.starred_by.remove(request.user)
         else:
             education.starred_by.add(request.user)
 
     return redirect("main:show_education")
+
+@login_required(login_url="/login/")
+def toggle_star_exp(request, experience_id):
+    experience = get_object_or_404(Experience, pk=experience_id)
+
+    if request.method == "POST":
+        if request.user in experience.starred_by.all():
+            experience.starred_by.remove(request.user)
+        else:
+            experience.starred_by.add(request.user)
+
+    return redirect("main:show_experience")
 
 def create_experience(request):
     form = ExperienceForm(request.POST or None)
@@ -132,6 +177,27 @@ def create_experience(request):
         "form": form,
     }
     return render(request, "experience_form.html", context)
+
+@group_required('Editor')
+def update_experience(request, experience_id):
+    experience = get_object_or_404(Experience, pk=experience_id)
+
+    if request.method == "POST":
+        form = ExperienceForm(request.POST, instance=experience)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Pengalaman berhasil diubah!")
+            return redirect("main:show_experience")
+    else:
+        form = ExperienceForm(instance=experience)
+
+    context = {
+        "name": "Wildan",
+        "form": form,
+        "experience": experience,
+    }
+
+    return render(request, "experience_update_form.html", context)
 
 def get_experience_json(request):
     title_query = request.GET.get("title", "").strip()

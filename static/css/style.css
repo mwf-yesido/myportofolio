@@ -441,7 +441,7 @@ h1, .brand {
     grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.education-grid .experience-card {
+.experience-grid .experience-card {
     display: flex;
     flex-direction: column;
 }
@@ -673,6 +673,25 @@ h1, .brand {
 
 .form-group input:focus,
 .form-group textarea:focus {
+    outline: 2px solid var(--accent);
+    border-color: var(--accent);
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.7rem;
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    font: inherit;
+    transition:
+        border-color 0.2s ease,
+        outline-color 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
     outline: 2px solid var(--accent);
     border-color: var(--accent);
 }

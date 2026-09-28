@@ -13,7 +13,10 @@ from main.views import (
     register,
     login_user,
     logout_user,
-    toggle_star,
+    toggle_star_edu,
+    toggle_star_exp,
+    update_education,
+    update_experience,
 )
 
 app_name = "main"
@@ -31,5 +34,8 @@ urlpatterns = [
     path("register/", register, name="register"),
     path("login/", login_user, name="login"),
     path("logout/", logout_user, name="logout"),
-    path("education/<uuid:education_id>/star/", toggle_star, name="toggle_star"),
+    path("education/<uuid:education_id>/star/", toggle_star_edu, name="toggle_star_edu"),
+    path("education/<uuid:education_id>/update/", update_education, name="update_education"),
+    path("experience/<uuid:experience_id>/star/", toggle_star_exp, name="toggle_star_exp"),
+    path("experience/<uuid:experience_id>/update/", update_experience, name="update_experience"),
 ]

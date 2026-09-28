@@ -9,13 +9,13 @@
                 <p class="section-kicker">Riwayat pendidikan saya</p>
                 <div class="education-header">
                     <h1>Education</h1>
-                        {% if user.is_superuser %}
-                            <a href="{% url 'main:create_education' %}"
-                                class="button education-add-button">
-                                <span aria-hidden="true">+</span>
-                                Tambah Riwayat Pendidikan
-                            </a>
-                        {% endif %}
+                    {% if user.is_superuser %}
+                        <a href="{% url 'main:create_education' %}"
+                            class="button education-add-button">
+                            <span aria-hidden="true">+</span>
+                            Tambah Riwayat Pendidikan
+                        </a>
+                    {% endif %}
                 </div>
                 <form method="get"
                       action="{% url 'main:show_education' %}"
@@ -32,13 +32,13 @@
                     {% for education in education_list %}
                         <article class="education-card">
                             <h2>{{ education.school_name }}</h2>
-                            <span class="education-grade">{{ education.grade }}</span>
+                            <span class="education-grade">{{ education.get_grade_display }}</span>
                             <div class="education-card-actions">
                                 <div class="education-actions">
-                                    {% if education.education_url %}
-                                        <a href="{{ education.education_url }}" class="button">Lihat Riwayat Pendidikan</a>
-                                    {% endif %}
                                     {% include "components/education_star.html" with education=education %}
+                                    {% if user.is_superuser or is_editor %}
+                                        <a href="{% url 'main:update_education' education.id %}" class="button">Ubah</a>
+                                    {% endif %}
                                     {% if user.is_superuser %}
                                         {% include "components/education_delete_modal.html" with education=education %}
                                     {% endif %}
