@@ -36,3 +36,10 @@ AI disclosure: Saya menggunakan gemini untuk menjelaskan beberapa poin dalam tut
 
 ### Tugas 4
 AI disclosure: Saya menggunakan beberapa dokumentasi dan juga Gemini untuk membantu saya dalam hal Django group dan permission. Saya tidak terlalu menggunakan AI dalam generate kode karena mayoritas memakai ulang kode yang sudah ada. Dokumentasi juga membantu saya dalam membuat group dan permission.
+
+### Tugas 5
+1. Debouncing adalah suatu cara untuk mendelay suatu aksi yang penting diterapkan dalam fitur search agar program tidak menjalankan kode search setiap huruf baru diketik, melainkan setelah pengguna berhenti mengetik selama beberapa satuan waktu
+2. await digunakan untuk menunggu atau pause sebuah async function hingga menerima data/Promise dari async function yang lain selesai diproses. Jika tidak digunakan, program bisa jadi tidak berjalan seperti yang diinginkan karena ada proses yang tidak menerima data yang tepat.
+3. XSS adalah serangan dimana penyerang menyisipkan kode JavaScript ke dalam halaman web. Data ini lebih rentan di AJAX/JavaScript dibandingkan template Django dikarenakan Django memiliki auto-escaping yang merubah karakter-karakter kode menjadi teks biasa, bukan tag html
+
+AI disclosure: Saya menggunakan AI beberapa kali ketika saya menghadapi error atau saya perlu fungsi-fungsi tambahan yang tidak ditampilkan dalam tutorial, misalnya untuk field waktu.
