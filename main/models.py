@@ -18,8 +18,8 @@ class Experience(models.Model):
     description = models.TextField()
     category = models.CharField(max_length=20, choices=EXPERIENCE_CHOICES, default='full-time')
     thumbnail = models.URLField(blank=True, null=True)
-    started_at = models.DateTimeField(auto_now_add=False)
-    ended_at = models.DateTimeField(blank=True, null=True)
+    started_at = models.DateField(auto_now_add=False)
+    ended_at = models.DateField(blank=True, null=True)
     starred_by = models.ManyToManyField(
         User, related_name="starred_experience", blank=True
     )
@@ -50,8 +50,8 @@ class Education(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     school_name = models.CharField(max_length=255)
     grade = models.CharField(max_length=20, choices=EDUCATION_CHOICES, default='college')
-    started_at = models.DateTimeField(auto_now_add=False)
-    ended_at = models.DateTimeField(blank=True, null=True)
+    started_at = models.DateField(auto_now_add=False)
+    ended_at = models.DateField(blank=True, null=True)
     starred_by = models.ManyToManyField(
         User, related_name="starred_education", blank=True
     )

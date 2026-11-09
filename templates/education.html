@@ -51,7 +51,7 @@
         </section>
     </main>
 
-    {% if user.is_superuser %}
+    {% if user.is_superuser or is_editor %}
         {% include "components/education_form_modal.html" %}
     {% endif %}
 
@@ -62,6 +62,7 @@
         const STAR_EDUCATION_ENDPOINT = "{% url 'main:api:education-star' '00000000-0000-0000-0000-000000000000' %}";
         const IS_SUPERUSER = "{{ user.is_superuser|yesno:'true,false' }}" === "true";
         const IS_AUTHENTICATED = "{{ user.is_authenticated|yesno:'true,false' }}" === "true";
+        const IS_EDITOR = "{{ is_editor|yesno:'true,false' }}" === "true";
 
         const loadingState = document.getElementById('loading');
         const errorState = document.getElementById('error');
@@ -72,6 +73,7 @@
         const educationForm = document.getElementById('education-form');
         let educationAbortController;
         let searchDebounceTimer;
+        let fetchedEducationsMap = new Map();
 
         function getCookie(name) {
             const prefix = `${name}=`;
@@ -99,6 +101,7 @@
         }
 
         function buildEducationCardElement(education) {
+            fetchedEducationsMap.set(education.id, education);
             const article = document.createElement('article');
             article.className = 'experience-card';
             
@@ -111,10 +114,13 @@
             const remove = IS_SUPERUSER
                 ? `<button type="button" class="button button-danger" data-action="delete"
                     data-id="${escapeHtml(education.id)}">Delete</button>` : '';
+            const edit = (IS_SUPERUSER || IS_EDITOR)
+                ? `<button type="button" class="button" data-action="edit" data-id="${escapeHtml(education.id)}">Edit</button>`
+                : '';
             article.innerHTML = `<h2>${escapeHtml(education.school_name)}</h2>
-                <span class="experience-grade">${escapeHtml(education.tech_stack)}</span>
+                <span class="education-grade">${escapeHtml(education.grade)}</span>
                 <div class="education-card-actions"><div class="education-actions">
-                ${star}${remove}</div></div>`;
+                ${star}${remove}${edit}</div></div>`;
             return article;
         }
 
@@ -161,28 +167,61 @@
             return data;
         }
 
-        async function addEducation(event) {
+        async function editEducationModal(education) {
+            educationForm.dataset.mode = 'edit';
+            educationForm.dataset.editId = education.id;
+            
+            educationForm.querySelector('[name="school_name"]').value = education.school_name || '';
+            educationForm.querySelector('[name="grade"]').value = education.grade || '';
+            if (educationForm.querySelector('[name="started_at"]')) {
+                educationForm.querySelector('[name="started_at"]').value = education.started_at ? education.started_at.slice(0, 10) : '';
+            }
+            if (educationForm.querySelector('[name="ended_at"]')) {
+                educationForm.querySelector('[name="ended_at"]').value = education.ended_at ? education.ended_at.slice(0, 10) : '';
+            }
+
+            document.getElementById('add-education-modal-title').textContent = 'Edit Riwayat Pendidikan';
+            document.getElementById('add-education-modal').showPopover();
+        }
+
+        async function submitForm(event) {
             event.preventDefault();
             const button = educationForm.querySelector('button[type="submit"]');
             button.disabled = true;
+
+            const isEdit = educationForm.dataset.mode === 'edit';
+            const editId = educationForm.dataset.editId;
+            const url = isEdit
+                ? educationEndpoint(DETAIL_EDUCATION_ENDPOINT, editId)
+                : BASE_EDUCATION_ENDPOINT;
+            const method = isEdit ? 'PATCH' : 'POST';
+            
             try {
                 const fields = new FormData(educationForm);
-                const payload = Object.fromEntries([
-                    'school_name', 'grade', 'started_at', 'ended_at',
-                ].map(name => [name, fields.get(name)]));
-                await writeEducation(BASE_EDUCATION_ENDPOINT, 'POST', payload);
+
+                const payload = {
+                    school_name: fields.get('school_name') || null,
+                    grade: fields.get('grade') || null,
+                    started_at: fields.get('started_at') || null,
+                    ended_at: fields.get('ended_at') || null,
+                };
+
+                await writeEducation(url, method, payload);
                 educationForm.reset();
+                delete educationForm.dataset.mode;
+                delete educationForm.dataset.editId;
+
                 document.getElementById('add-education-modal').hidePopover();
-                showToast('Success', 'Education created.', 'success');
+                showToast('Success', isEdit ? 'Education updated.' : 'Education created.', 'success');
                 await fetchEducation(searchInput.value.trim());
             } catch (error) {
-                showToast('Could not create education', error.message, 'error');
+                showToast('Could not save education', error.message, 'error');
             } finally {
                 button.disabled = false;
             }
         }
 
-        if (educationForm) educationForm.addEventListener('submit', addEducation);
+        if (educationForm) educationForm.addEventListener('submit', submitForm);
 
         gridContainer.addEventListener('click', async function(event) {
             const button = event.target.closest('button[data-action]');
@@ -190,6 +229,11 @@
             const action = button.dataset.action;
             if (action === 'delete' && !window.confirm('Delete this education?')) return;
             button.disabled = true;
+            if (action === 'edit') {
+                const education = fetchedEducationsMap.get(button.dataset.id);
+                if (education) editEducationModal(education);
+                return;
+            }
             try {
                 const pattern = action === 'star' ? STAR_EDUCATION_ENDPOINT : DETAIL_EDUCATION_ENDPOINT;
                 await writeEducation(educationEndpoint(pattern, button.dataset.id),

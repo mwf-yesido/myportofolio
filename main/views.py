@@ -48,21 +48,31 @@ def show_main(request):
 
 def show_experience(request):
     title_query = request.GET.get("title", "").strip()
+    is_editor = (
+        request.user.is_authenticated 
+        and (request.user.groups.filter(name="Editor").exists() or request.user.is_superuser)
+    )
     
     context = {
         "name": "Wildan",
         "title_query": title_query,
         "form": ExperienceForm(),
+        "is_editor": is_editor,
     }
     return render(request, "experience.html", context)
 
 def show_education(request):
     school_name_query = request.GET.get("school_name", "").strip()
-
+    is_editor = (
+        request.user.is_authenticated 
+        and (request.user.groups.filter(name="Editor").exists() or request.user.is_superuser)
+    )
+    
     context = {
         "name": "Wildan",
         "school_name_query": school_name_query,
         "form": EducationForm(),
+        "is_editor": is_editor,
     }
     return render(request, "education.html", context)
 

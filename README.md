@@ -43,3 +43,11 @@ AI disclosure: Saya menggunakan beberapa dokumentasi dan juga Gemini untuk memba
 3. XSS adalah serangan dimana penyerang menyisipkan kode JavaScript ke dalam halaman web. Data ini lebih rentan di AJAX/JavaScript dibandingkan template Django dikarenakan Django memiliki auto-escaping yang merubah karakter-karakter kode menjadi teks biasa, bukan tag html
 
 AI disclosure: Saya menggunakan AI beberapa kali ketika saya menghadapi error atau saya perlu fungsi-fungsi tambahan yang tidak ditampilkan dalam tutorial, misalnya untuk field waktu.
+
+### Tugas 6
+1. REST adalah gaya arsitektur untuk merancang web API. Ini ditentukan dari cara API diatur dan mengikuti tiga gagasan yaitu data diperlakukan sebagai resource, HTTP method menyatakan tindakan, dan klien dan server bertukar representasi data. PUT mengganti data secara keseluruhan sedangkan PATCH bisa mengganti data secara parsial. PATCH layak digunakan saat seperti update informasi, sedangkan PUT layak digunakan saat butuh mengganti seluruh field dari sebuah objek
+2. Serializers berperan untuk memvalidasi, mengubah bentuk data, dan menyimpan data. Ini dapat menyederhanakan konversi data kompleks seperti QuerySet menjadi data yang mudah diolah seperti JSON.
+3. Autentikasi menyimpan user yang sudah terdaftar sedangkan otorisasi menyimpan informasi apakah sebuah aksi dapat dilakukan oleh seorang user tertentu. Hak akses harus diperiksa dan tidak hanya disembunyikan di template untuk mencegah orang yang tidak berhak mengakses fitur tersebut dengan memasukkan link yang dituju secara manual.
+4. Karena SessionAuthentication yang berbasis cookie rentan terhadap serangan CSRF. force_authenticate tidak cukup karena method tersebut mengabaikan alur autentikasi selanjutnya. Ini patut digunakan jika kita ingin menguji hal-hal setelah user authenticated, bukan menguji hal yang seharusnya tidak bisa sebelum authenticated
+
+AI disclosure: Saya menggunakan AI beberapa kali ketika saya menghadapi error atau saya perlu fungsi-fungsi tambahan yang tidak ditampilkan dalam tutorial, misalnya untuk field waktu. Saya tetap bertanya lebih untuk mempelajari alasan approach tersebut.
