@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-1*7hc$@jc16jjjrj(#4966gc3*-a9gdmwcuh)i*)er%ge*f)2@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "muh-wildan51-myportofolio.pws.cs.ui.ac.id"]
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "10.0.0.2", "muh-wildan51-myportofolio.pws.cs.ui.ac.id"]
 PRODUCTION = os.getenv('PRODUCTION', 'False').lower() == 'true'
 
 # Application definition
@@ -44,18 +44,31 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main',
     "rest_framework",
+    "rest_framework.authtoken",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly",
+    ],
+}
 
 ROOT_URLCONF = 'portofolio.urls'
 
@@ -79,6 +92,19 @@ WSGI_APPLICATION = 'portofolio.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
+
+# Local development CORS settings for Flutter Web (Chrome).
+# Uses the `PRODUCTION` flag from `.env` / `.env.prod` (Tutorial 00/01):
+# allow all origins locally (`PRODUCTION=False`), and restrict in production.
+# In production (.env.prod), set CORS_ALLOWED_ORIGINS="https://your-web-app.example"
+# (only needed if you host Flutter Web; native Android apps do not use CORS).
+CORS_ALLOW_ALL_ORIGINS = not PRODUCTION
+if PRODUCTION:
+    CORS_ALLOWED_ORIGINS = [
+        origin.strip()
+        for origin in os.getenv("CORS_ALLOWED_ORIGINS", "").split(",")
+        if origin.strip()
+    ]
 
 # Database configuration
 if PRODUCTION:
